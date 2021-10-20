@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Web\WebController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('register', [AuthController::class, 'showFormRegister'])->name('show-form-register');
+Route::post('register', [AuthController::class, 'register'])->name('register');
+Route::get('login', [AuthController::class, 'showFormLogin'])->name('show-form-login');
+Route::post('login', [AuthController::class, 'login'])->name('login');
+//
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('profile', [AuthController::class, 'showProfile'])->name('show-profile');
+Route::put('profile', [AuthController::class, 'profile'])->name('profile');
 
 Route::get('category', [WebController::class, 'getCategory'])->name('get-category');
 Route::get('create-category', [WebController::class, 'createCategory'])->name('create-category');
