@@ -28,7 +28,7 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('profile', [AuthController::class, 'showProfile'])->name('show-profile');
 Route::put('profile', [AuthController::class, 'profile'])->name('profile');
 
-Route::get('category', [WebController::class, 'getCategory'])->name('get-category');
+Route::get('category', [WebController::class, 'category'])->name('category');
 Route::get('create-category', [WebController::class, 'createCategory'])->name('create-category');
 Route::post('store-category', [WebController::class, 'storeCategory'])->name('store-category');
 Route::get('edit-category', [WebController::class, 'editCategory'])->name('edit-category');
