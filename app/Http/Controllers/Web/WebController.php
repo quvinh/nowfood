@@ -50,12 +50,13 @@ class WebController extends Controller
     /////////////////////////////////////////
 
     public function product() {
-        return view('web.product.index');
+        $product = Product::all();
+        return view('web.product.index', compact('product'));
     }
 
     public function getProduct($id) {
-        $category = Category::find($id);
-        return view('web.product.get', compact('category'));
+        $product = Product::find($id);
+        return view('web.product.get', compact('product'));
     }
 
     public function createProduct() {
@@ -79,11 +80,11 @@ class WebController extends Controller
             if(strcasecmp($extension, 'jpg') === 0 || strcasecmp($extension, 'png') === 0 || strcasecmp($extension, 'jepg') === 0) {
                 $name = Str::random(5).'_'.$name_file;
 
-                while(file_exists('image/'.$name)) {
+                while(file_exists('images/'.$name)) {
                     $name = Str::random(5).'_'.$name_file;
                 }
 
-                $file->move('image', $name);
+                $file->move('images', $name);
 
                 $product = new Product();
                 $product->category_id = $request->category_id;
@@ -101,19 +102,19 @@ class WebController extends Controller
     }
 
     public function editProduct($id) {
-        $category = Category::find($id);
-        return view('web.product.edit', compact('category'));
+        $product = Product::find($id);
+        return view('web.product.edit', compact('product'));
     }
 
     public function updateProduct(Request $request, $id) {
-        $category = Category::find($id);
-        $category->update($request->all());
+        $product = Product::find($id);
+        $product->update($request->all());
         return redirect()->route('product');
     }
 
     public function deleteProduct($id) {
-        $category = Category::find($id);
-        $category->delete();
+        $product = Product::find($id);
+        $product->delete();
         return redirect()->route('product');
     }
 }

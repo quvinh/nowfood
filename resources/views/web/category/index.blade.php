@@ -8,9 +8,10 @@
     <a href="/create-category">new</a>
     <br>
     @foreach($category as $item)
-        <p>{{ $item->name }}</p>
-        <p>{{ $item->user->name }}</p>
+        <p>Name category: {{ $item->name }}</p>
+        <p>User:{{ $item->user->name }}</p>
+        <a href="/edit-category/{{ $item->id }}">edit</a>
+        <a href="/delete-category/{{ $item->id }}">delete</a>
     @endforeach
-    <a href="/edit-category">edit</a>
-    <a href="/delete-category">delete</a>
+
 @endsection
