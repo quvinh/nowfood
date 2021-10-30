@@ -8,6 +8,7 @@
     <p>Name: {{ $product->name }}</p>
     <p>Price: {{ $product->price }}</p>
     <p>Description: {{ $product->description }}</p>
+    <p>Quantity: {{ $product->quantity }}</p>
     <img src="{{ asset('images/'.$product->image) }}" alt="IMAGE">
     <br>
     <a href="/product">All product</a>

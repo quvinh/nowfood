@@ -4,24 +4,29 @@ namespace App\Http\Controllers\Web;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class WebController extends Controller
 {
-    public function category() {
+    public function category()
+    {
         $category = Category::all();
         return view('web.category.index', compact('category'));
     }
 
-    public function createCategory() {
+    public function createCategory()
+    {
         return view('web.category.create');
     }
 
-    public function storeCategory(Request $request) {
+    public function storeCategory(Request $request)
+    {
         $request->validate([
-            'user_id' => 'required',
             'name' => 'required',
             'description' => 'required'
         ]);
@@ -30,18 +35,22 @@ class WebController extends Controller
         return redirect()->route('category');
     }
 
-    public function editCategory($id) {
+    public function editCategory($id)
+    {
         $category = Category::find($id);
         return view('web.category.edit', compact('category'));
     }
 
-    public function updateCategory(Request $request, $id) {
+    public function updateCategory(Request $request, $id)
+    {
         $category = Category::find($id);
         $category->update($request->all());
         return redirect()->route('category');
     }
 
-    public function deleteCategory($id) {
+    public function deleteCategory($id)
+    {
+        DB::table('products')->where('category_id', $id)->delete();
         $category = Category::find($id);
         $category->delete();
         return redirect()->route('category');
@@ -49,21 +58,25 @@ class WebController extends Controller
 
     /////////////////////////////////////////
 
-    public function product() {
+    public function product()
+    {
         $product = Product::all();
         return view('web.product.index', compact('product'));
     }
 
-    public function getProduct($id) {
+    public function getProduct($id)
+    {
         $product = Product::find($id);
         return view('web.product.get', compact('product'));
     }
 
-    public function createProduct() {
+    public function createProduct()
+    {
         return view('web.product.create');
     }
 
-    public function storeProduct(Request $request) {
+    public function storeProduct(Request $request)
+    {
         $request->validate([
             'category_id' => 'required',
             'name' => 'required',
@@ -72,16 +85,16 @@ class WebController extends Controller
             'description' => 'required'
         ]);
 
-        if($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $file = $request->file('image');
             $name_file = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension();
 
-            if(strcasecmp($extension, 'jpg') === 0 || strcasecmp($extension, 'png') === 0 || strcasecmp($extension, 'jepg') === 0) {
-                $name = Str::random(5).'_'.$name_file;
+            if (strcasecmp($extension, 'jpg') === 0 || strcasecmp($extension, 'png') === 0 || strcasecmp($extension, 'jepg') === 0) {
+                $name = Str::random(5) . '_' . $name_file;
 
-                while(file_exists('images/'.$name)) {
-                    $name = Str::random(5).'_'.$name_file;
+                while (file_exists('images/' . $name)) {
+                    $name = Str::random(5) . '_' . $name_file;
                 }
 
                 $file->move('images', $name);
@@ -92,6 +105,7 @@ class WebController extends Controller
                 $product->price = $request->price;
                 $product->image = $name;
                 $product->description = $request->description;
+                $product->quantity = $request->quantity;
                 $product->save();
 
                 return redirect()->route('product')->with('success', 'Created successfully');
@@ -101,20 +115,73 @@ class WebController extends Controller
         }
     }
 
-    public function editProduct($id) {
+    public function editProduct($id)
+    {
         $product = Product::find($id);
         return view('web.product.edit', compact('product'));
     }
 
-    public function updateProduct(Request $request, $id) {
+    public function updateProduct(Request $request, $id)
+    {
         $product = Product::find($id);
-        $product->update($request->all());
+
+        if (file_exists('images/' . $product->image)) {
+            File::delete('images/' . $product->image);
+            $file = $request->file('image');
+            $name_file = $file->getClientOriginalName();
+            $name = Str::random(5) . '_' . $name_file;
+            while (file_exists('images/' . $name)) {
+                $name = Str::random(5) . '_' . $name_file;
+            }
+            $file->move('images', $name);
+            $product->category_id = $request->category_id;
+            $product->name = $request->name;
+            $product->price = $request->price;
+            $product->image = $name;
+            $product->description = $request->description;
+            $product->save();
+        }
+
+        // $product->update($request->all());
         return redirect()->route('product');
     }
 
-    public function deleteProduct($id) {
+    public function deleteProduct($id)
+    {
+        DB::table('orders')->where('product_id', $id)->delete();
         $product = Product::find($id);
+        if (file_exists('images/' . $product->image)) {
+            File::delete('images/' . $product->image);
+        }
         $product->delete();
         return redirect()->route('product');
     }
+    /////////////////////////////////////////
+
+    public function getOrder() {
+        $order = Order::all();
+        return view('web.order.get', compact('order'));
+    }
+
+    public function storeOrder(Request $request) {
+        $order_ck = DB::table('orders')->where('product_id', $request->product_id)->get('id')->count();
+        if($order_ck > 0) {
+            $order = DB::table('orders')->where('product_id', $request->product_id)->get();
+            Order::where('product_id', $request->product_id)->update(['quantity' => ++$order[0]->quantity]);
+        } else {
+            $order = new Order();
+            $order->product_id = $request->product_id;
+            // $order->user_id = $request->user_id;
+            $order->quantity = 1;
+            $order->save();
+        }
+        return redirect()->route('product');
+    }
+    /////////////////////////////////////////
+    /**
+     * order_id
+     * user_id
+     * pay
+     * status
+     */
 }

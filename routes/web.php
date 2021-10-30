@@ -43,9 +43,9 @@ Route::get('edit-product/{id}', [WebController::class, 'editProduct'])->name('ed
 Route::put('update-product/{id}', [WebController::class, 'updateProduct'])->name('update-product');
 Route::get('delete-product/{id}', [WebController::class, 'deleteProduct'])->name('delete-product');
 
-Route::get('get-order', [WebController::class, 'getorder'])->name('get-order');
+Route::get('get-order', [WebController::class, 'getOrder'])->name('get-order');
 // Route::get('create-order', [WebController::class, 'createorder'])->name('create-order');
-// Route::post('store-order', [WebController::class, 'storeorder'])->name('store-order');
+Route::post('store-order', [WebController::class, 'storeOrder'])->name('store-order');
 // Route::get('edit-order', [WebController::class, 'editorder'])->name('edit-order');
 // Route::put('update-order', [WebController::class, 'createorder'])->name('create-order');
-Route::get('delete-order', [WebController::class, 'deleteorder'])->name('delete-order');
+Route::get('delete-order/{id}', [WebController::class, 'deleteOrder'])->name('delete-order');

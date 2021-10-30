@@ -11,6 +11,7 @@
         <input type="text" name="name" placeholder="name">
         <input type="text" name="price" placeholder="price">
         <input type="text" name="description" placeholder="description">
+        <input type="text" name="quantity" placeholder="quantity">
         <input type="file" name="image" placeholder="image">
         <button type="submit">Create</button>
     </form>
