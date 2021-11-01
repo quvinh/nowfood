@@ -19,8 +19,10 @@
         </form>
         <!-- <a onclick="document.getElementById('addCard').submit();">Add</a> -->
         <!-- <a href="/store-order/{{ $item->id }}">Add</a> -->
-        <a href="/get-product/{{ $item->id }}">Info</a>
-        <a href="/edit-product/{{ $item->id }}">edit</a>
-        <a href="/delete-product/{{ $item->id }}">delete</a>
+        <a href="/admin/get-product/{{ $item->id }}">Info</a>
+        <a href="/admin/edit-product/{{ $item->id }}">edit</a>
+        <a href="/admin/delete-product/{{ $item->id }}">delete</a>
     @endforeach
+
+    <!-- <p>User_id: {{ Auth::user()->id }}</p> -->
 @endsection

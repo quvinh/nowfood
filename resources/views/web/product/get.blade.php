@@ -11,7 +11,7 @@
     <p>Quantity: {{ $product->quantity }}</p>
     <img src="{{ asset('images/'.$product->image) }}" alt="IMAGE">
     <br>
-    <a href="/product">All product</a>
-    <a href="/edit-product/{{ $product->id }}">edit</a>
-    <a href="/delete-product/{{ $product->id }}">delete</a>
+    <a href="/admin/product">All product</a>
+    <a href="/admin/edit-product/{{ $product->id }}">edit</a>
+    <a href="/admin/delete-product/{{ $product->id }}">delete</a>
 @endsection

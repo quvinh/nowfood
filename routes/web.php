@@ -24,28 +24,32 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::get('login', [AuthController::class, 'showFormLogin'])->name('show-form-login');
 Route::post('login', [AuthController::class, 'login'])->name('login');
 //
-Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('profile', [AuthController::class, 'showProfile'])->name('show-profile');
-Route::put('profile', [AuthController::class, 'profile'])->name('profile');
+Route::middleware('checklogin')->group(function() {
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('profile', [AuthController::class, 'showProfile'])->name('show-profile');
+    Route::put('profile', [AuthController::class, 'profile'])->name('profile');
+});
 
-Route::get('category', [WebController::class, 'category'])->name('category');
-Route::get('create-category', [WebController::class, 'createCategory'])->name('create-category');
-Route::post('store-category', [WebController::class, 'storeCategory'])->name('store-category');
-Route::get('edit-category/{id}', [WebController::class, 'editCategory'])->name('edit-category');
-Route::put('update-category/{id}', [WebController::class, 'updateCategory'])->name('update-category');
-Route::get('delete-category/{id}', [WebController::class, 'deletecategory'])->name('delete-category');
+Route::prefix('admin')->middleware('admin')->group(function() {
+    Route::get('category', [WebController::class, 'category'])->name('category');
+    Route::get('create-category', [WebController::class, 'createCategory'])->name('create-category');
+    Route::post('store-category', [WebController::class, 'storeCategory'])->name('store-category');
+    Route::get('edit-category/{id}', [WebController::class, 'editCategory'])->name('edit-category');
+    Route::put('update-category/{id}', [WebController::class, 'updateCategory'])->name('update-category');
+    Route::get('delete-category/{id}', [WebController::class, 'deletecategory'])->name('delete-category');
 
-Route::get('product', [WebController::class, 'product'])->name('product');
-Route::get('get-product/{id}', [WebController::class, 'getProduct'])->name('get-product');
-Route::get('create-product', [WebController::class, 'createProduct'])->name('create-product');
-Route::post('store-product', [WebController::class, 'storeProduct'])->name('store-product');
-Route::get('edit-product/{id}', [WebController::class, 'editProduct'])->name('edit-product');
-Route::put('update-product/{id}', [WebController::class, 'updateProduct'])->name('update-product');
-Route::get('delete-product/{id}', [WebController::class, 'deleteProduct'])->name('delete-product');
+    Route::get('product', [WebController::class, 'product'])->name('product');
+    Route::get('get-product/{id}', [WebController::class, 'getProduct'])->name('get-product');
+    Route::get('create-product', [WebController::class, 'createProduct'])->name('create-product');
+    Route::post('store-product', [WebController::class, 'storeProduct'])->name('store-product');
+    Route::get('edit-product/{id}', [WebController::class, 'editProduct'])->name('edit-product');
+    Route::put('update-product/{id}', [WebController::class, 'updateProduct'])->name('update-product');
+    Route::get('delete-product/{id}', [WebController::class, 'deleteProduct'])->name('delete-product');
 
-Route::get('get-order', [WebController::class, 'getOrder'])->name('get-order');
-// Route::get('create-order', [WebController::class, 'createorder'])->name('create-order');
-Route::post('store-order', [WebController::class, 'storeOrder'])->name('store-order');
-// Route::get('edit-order', [WebController::class, 'editorder'])->name('edit-order');
-// Route::put('update-order', [WebController::class, 'createorder'])->name('create-order');
-Route::get('delete-order/{id}', [WebController::class, 'deleteOrder'])->name('delete-order');
+    Route::get('get-order', [WebController::class, 'getOrder'])->name('get-order');
+    // Route::get('create-order', [WebController::class, 'createorder'])->name('create-order');
+    Route::post('store-order', [WebController::class, 'storeOrder'])->name('store-order');
+    // Route::get('edit-order', [WebController::class, 'editorder'])->name('edit-order');
+    // Route::put('update-order', [WebController::class, 'createorder'])->name('create-order');
+    Route::get('delete-order/{id}', [WebController::class, 'deleteOrder'])->name('delete-order');
+});
