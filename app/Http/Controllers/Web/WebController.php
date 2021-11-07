@@ -202,11 +202,4 @@ class WebController extends Controller
         }
         return redirect('/');
     }
-    /////////////////////////////////////////
-    /**
-     * order_id
-     * user_id
-     * pay
-     * status
-     */
 }

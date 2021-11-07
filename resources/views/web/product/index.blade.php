@@ -5,25 +5,45 @@
 @endsection
 
 @section('content')
-    <a href="/admin/create-product">Create</a>
     <br>
-    @foreach($product as $item)
-        <p>User ID: {{ Auth::user()->id }}</p>
-        <p>ID product: {{ $item->id }}</p>
-        <p>Name product: {{ $item->name }}</p>
-        <p>Price product: {{ $item->price }} vnd</p>
-        <form action="{{ route('store-order') }}" method="post">
-            {{ csrf_field() }}
-            <input type="text" name="product_id" value="{{ $item->id }}" hidden>
-            <input type="text" name="user_id" value="{{ Auth::user()->id }}" hidden>
-            <button type="submit">Add to card</button>
-        </form>
-        <!-- <a onclick="document.getElementById('addCard').submit();">Add</a> -->
-        <!-- <a href="/store-order/{{ $item->id }}">Add</a> -->
-        <a href="/admin/get-product/{{ $item->id }}">Info</a>
-        <a href="/admin/edit-product/{{ $item->id }}">edit</a>
-        <a href="/admin/delete-product/{{ $item->id }}">delete</a>
-    @endforeach
+    <a type="button" class="btn btn-primary" href="{{ route('create-product') }}">Thêm món ăn</a>
+    <br><br>
 
-    <!-- <p>User_id: {{ Auth::user()->id }}</p> -->
+    <table class="table table-bordered border-primary">
+        <thead>
+            <tr>
+                <th scope="col">STT</th>
+                <th scope="col">ID</th>
+                <th scope="col">Tên món</th>
+                <th scope="col">Tên loại</th>
+                <th scope="col">Đơn giá</th>
+                <th scope="col">Image</th>
+                <th scope="col">Mô tả</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php
+                $i = 1
+            @endphp
+            @foreach($product as $item)
+                <tr>
+                    <th scope="row">{{ $i++ }}</th>
+                    <td>{{ $item->id }}</td>
+                    <td>{{ $item->name }}</td>
+                    <td>{{ $item->category->name }}</td>
+                    <td>{{ $item->price }}</td>
+                    <td><img style="width: 100px;" src="{{ asset('images/'.$item->image) }}" alt=""></td>
+                    <td>{{ $item->description }}</td>
+                    <td>{{ $item->quantity }}</td>
+                    <td>
+                        <a type="button" class="btn btn-secondary" href="{{ route('edit-product',$item->id) }}">Chỉnh sửa</a>
+                        <span></span>
+                        <a type="button" class="btn btn-danger" href="{{ route('delete-product',$item->id) }}">Xoá</a>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 @endsection
