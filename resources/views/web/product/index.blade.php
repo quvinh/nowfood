@@ -5,16 +5,17 @@
 @endsection
 
 @section('content')
-    <a href="/create-product">Create</a>
+    <a href="/admin/create-product">Create</a>
     <br>
     @foreach($product as $item)
+        <p>User ID: {{ Auth::user()->id }}</p>
         <p>ID product: {{ $item->id }}</p>
         <p>Name product: {{ $item->name }}</p>
         <p>Price product: {{ $item->price }} vnd</p>
         <form action="{{ route('store-order') }}" method="post">
             {{ csrf_field() }}
             <input type="text" name="product_id" value="{{ $item->id }}" hidden>
-            <input type="text" name="user_id" value="{{ $item->category->user_id }}" hidden>
+            <input type="text" name="user_id" value="{{ Auth::user()->id }}" hidden>
             <button type="submit">Add to card</button>
         </form>
         <!-- <a onclick="document.getElementById('addCard').submit();">Add</a> -->

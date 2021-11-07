@@ -34,7 +34,10 @@ class AuthController extends Controller
 
     public function login(Request $request) {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('show-profile');
+            if(Auth::user()->is_admin){
+                return redirect()->route('admin');
+            }
+            return redirect()->route('home');
         }
         return redirect()->route('show-form-login')->with('error', 'Email or Password incorrect');
     }

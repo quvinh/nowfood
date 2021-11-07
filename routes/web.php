@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Web\Home;
 use App\Http\Controllers\Web\WebController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,9 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('index.home');
+// });
+
+Route::get('/', [Home::class, 'home'])->name('home');
+Route::get('get-product/{id}', [Home::class, 'getProduct'])->name('index.get-product');
+Route::get('buy/{id}', [Home::class, 'buy'])->name('index.buy');
+Route::post('buy-product/{id}', [Home::class, 'buyProduct'])->name('index.buy-product');
+Route::get('bill/{id}', [Home::class, 'bill'])->name('index.bill');
+Route::get('cart', [Home::class, 'getCart'])->name('index.cart');
+Route::post('buy-cart/{id}', [Home::class, 'buyCart'])->name('index.buy-cart');
+Route::get('add-address/{id}', [Home::class, 'addAddress'])->name('index.add-address');
+Route::post('store-address/{id}', [Home::class, 'storeAddress'])->name('index.store-address');
+Route::post('store-comment', [Home::class, 'storeComment'])->name('index.store-comment');
 
 Route::get('register', [AuthController::class, 'showFormRegister'])->name('show-form-register');
 Route::post('register', [AuthController::class, 'register'])->name('register');
@@ -31,6 +43,8 @@ Route::middleware('checklogin')->group(function() {
 });
 
 Route::prefix('admin')->middleware('admin')->group(function() {
+    Route::get('/', [WebController::class, 'admin'])->name('admin');
+
     Route::get('category', [WebController::class, 'category'])->name('category');
     Route::get('create-category', [WebController::class, 'createCategory'])->name('create-category');
     Route::post('store-category', [WebController::class, 'storeCategory'])->name('store-category');
@@ -48,8 +62,10 @@ Route::prefix('admin')->middleware('admin')->group(function() {
 
     Route::get('get-order', [WebController::class, 'getOrder'])->name('get-order');
     // Route::get('create-order', [WebController::class, 'createorder'])->name('create-order');
-    Route::post('store-order', [WebController::class, 'storeOrder'])->name('store-order');
+    // Route::post('store-order', [WebController::class, 'storeOrder'])->name('store-order');
     // Route::get('edit-order', [WebController::class, 'editorder'])->name('edit-order');
     // Route::put('update-order', [WebController::class, 'createorder'])->name('create-order');
     Route::get('delete-order/{id}', [WebController::class, 'deleteOrder'])->name('delete-order');
 });
+
+Route::post('store-order', [WebController::class, 'storeOrder'])->name('store-order');

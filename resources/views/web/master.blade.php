@@ -7,6 +7,9 @@
     <title>@yield('title')</title>
 </head>
 <body>
+    <a href="/admin/category">category</a>
+    <a href="/admin/product">product</a>
+    <br>
     @yield('content')
 </body>
 </html>

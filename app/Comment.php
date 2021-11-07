@@ -4,15 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Comment extends Model
 {
-    protected $table = 'orders';
+    protected $table = 'comments';
     protected $fillable = [
-        'product_id',
         'user_id',
-        'quantity'
+        'product_id',
+        'comment',
+        'start'
     ];
 
+    public $timestamps = false;
     public function product() {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }

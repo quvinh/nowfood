@@ -13,6 +13,11 @@ use Illuminate\Support\Str;
 
 class WebController extends Controller
 {
+    public function admin()
+    {
+        return view('web.master');
+    }
+
     public function category()
     {
         $category = Category::all();
@@ -158,24 +163,44 @@ class WebController extends Controller
     }
     /////////////////////////////////////////
 
-    public function getOrder() {
+    public function getOrder()
+    {
         $order = Order::all();
         return view('web.order.get', compact('order'));
     }
 
-    public function storeOrder(Request $request) {
-        $order_ck = DB::table('orders')->where('product_id', $request->product_id)->get('id')->count();
-        if($order_ck > 0) {
-            $order = DB::table('orders')->where('product_id', $request->product_id)->get();
-            Order::where('product_id', $request->product_id)->update(['quantity' => ++$order[0]->quantity]);
+    public function storeOrder(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'product_id' => 'required',
+            'user_id' => 'required'
+        ]);
+        $order_ck = DB::table('orders')
+            ->where('product_id', $request->product_id)
+            ->where('user_id', $request->user_id)
+            ->get('id')
+            ->count();
+        $bill_ck = DB::table('bills')
+            ->join('orders', 'orders.id', '=', 'bills.order_id')
+            ->join('products', 'products.id', '=', 'orders.product_id')
+            ->where('orders.product_id', $request->product_id)
+            ->get()
+            ->count();
+        // dd($bill_ck);
+        if ($order_ck > 0) {
+            $order = DB::table('orders')->where('product_id', $request->product_id)->where('user_id', $request->user_id)->get();
+            if($bill_ck == 0) {
+                Order::where('product_id', $request->product_id)->where('user_id', $request->user_id)->update(['quantity' => ++$order[0]->quantity]);
+            }
         } else {
             $order = new Order();
             $order->product_id = $request->product_id;
-            // $order->user_id = $request->user_id;
+            $order->user_id = $request->user_id;
             $order->quantity = 1;
             $order->save();
         }
-        return redirect()->route('product');
+        return redirect('/');
     }
     /////////////////////////////////////////
     /**
