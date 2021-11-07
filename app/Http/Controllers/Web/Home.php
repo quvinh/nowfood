@@ -1,0 +1,157 @@
+<?php
+
+namespace App\Http\Controllers\Web;
+
+use App\Address;
+use App\Bill;
+use App\Comment;
+use App\Http\Controllers\Controller;
+use App\Order;
+use App\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\VarDumper\Caster\RedisCaster;
+
+class Home extends Controller
+{
+    public function home() {
+        $product = Product::all();
+        return view('index.show_product', compact('product'));
+    }
+
+    public function getProduct($id) {
+        $product = Product::find($id);
+        $comment = DB::table('comments')
+            ->join('users', 'users.id', '=', 'comments.user_id')
+            ->where('comments.product_id', $id)
+            ->get();
+        // dd($comment);
+        return view('index.get_product', compact('product', 'comment'));
+    }
+
+    public function buy($id) {//id : Product
+        $product = Product::find($id);
+        $check_cart = DB::table('orders')->where('product_id', $id)->where('user_id', Auth::user()->id)->get('id')->count();
+        $check_address = DB::table('address')->where('user_id', Auth::user()->id)->get()->count();
+        // dd($check_address);
+        if($check_address == 0) {
+            return redirect()->route('index.add-address', $id);
+        }
+        if($check_cart > 0) {
+            $check_bill = DB::table('bills')
+                ->join('orders', 'orders.id', '=', 'bills.order_id')
+                ->where('orders.product_id', $id)
+                ->get('bills.id')
+                ->count();
+            if($check_bill > 0) {
+                return redirect()->route('index.bill', Auth::user()->id);
+            }
+            return redirect()->route('index.cart', Auth::user()->id);
+        }
+        return view('index.buy_product', compact('product'));
+    }
+
+    public function buyProduct(Request $request, $id) {//id of Product
+        $request->validate([
+            'price' => 'required',
+            'quantity' => 'required|min:1',
+            'total' => 'required'
+        ]);
+
+        $order = new Order();
+        $order->product_id = $id;
+        $order->user_id = Auth::user()->id;
+        $order->quantity = $request->quantity;
+        $order->save();
+
+        $get_order = DB::table('orders')->where('product_id', $id)->where('user_id', Auth::user()->id)->get();
+        $bill = new Bill();
+        $bill->order_id = $get_order[0]->id;
+        $bill->payment = $request->total;
+        $bill->status = 0;
+        $bill->save();
+
+        return redirect()->route('index.bill', Auth::user()->id);
+    }
+
+    public function bill($id) { //id of User
+        // $order = DB::table('orders')->where('user_id', $id)->get('id');
+        // $get_bill = array();
+        // foreach($order as $item){
+        //     array_push($get_bill, $item->id);
+        // }
+        // $bill = DB::table('bills')->whereIn('order_id', $get_bill)->get();
+        $bill = DB::table('bills')
+            ->join('orders', 'bills.order_id', '=', 'orders.id')
+            ->join('products', 'orders.product_id', '=', 'products.id')
+            ->select('products.id', 'products.name', 'products.price', 'orders.quantity', 'bills.payment', 'bills.status')
+            ->where('orders.user_id', '=', $id)
+            ->get();
+        return view('index.bill', compact('bill'));
+    }
+
+    public function getCart() {
+        // $info = DB::table('bills')
+        //     ->join('orders', 'bills.order_id', '=', 'orders.id')
+        //     ->join('products', 'orders.product_id', '=', 'products.id')
+        //     ->select('products.id', 'products.name', 'products.price', 'orders.quantity', 'bills.payment')
+        //     ->where('orders.user_id', '=', Auth::user()->id)
+        //     ->get();
+        $id_order = DB::table('bills')->get('order_id');
+        $get_id = array();
+        foreach($id_order as $item) {
+            array_push($get_id, $item->order_id);
+        }
+        $info = DB::table('orders')
+            ->join('products', 'products.id', '=', 'orders.product_id')
+            ->select('products.name', 'products.price', 'products.image', 'orders.*')
+            ->addSelect(DB::raw('(products.price * orders.quantity+10000) as total'))
+            ->where('user_id', Auth::user()->id)
+            ->whereNotIn('orders.id', $get_id)
+            ->get();
+        // dd($info);
+        return view('index.cart', compact('info'));
+    }
+
+    public function buyCart(Request $request, $id) {//id: Product
+        $request->validate([
+            'product_id' => 'required',
+            'total' => 'required',
+        ]);
+        $get_order = DB::table('orders')->where('product_id', $id)->where('user_id', Auth::user()->id)->get();
+        $bill = new Bill();
+        $bill->order_id = $get_order[0]->id;
+        $bill->payment = $request->total;
+        $bill->status = 0;
+        $bill->save();
+
+        return redirect()->route('index.bill', Auth::user()->id);
+    }
+
+    public function addAddress($id) { //id: Product
+        return view('index.add_address', compact('id'));
+    }
+
+    public function storeAddress(Request $request, $id) {//id: Product
+        $request->validate([
+            'user_id' => 'required',
+            'fullname' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+        ]);
+
+        Address::create($request->all());
+        return redirect()->route('index.buy', $id);
+    }
+
+    public function storeComment(Request $request) {
+        $request->validate([
+            'product_id' => 'required',
+            'comment' => 'required'
+        ]);
+        // dd($request);
+        Comment::create($request->all());
+        return redirect()->route('index.get-product', $request->product_id);
+    }
+}
