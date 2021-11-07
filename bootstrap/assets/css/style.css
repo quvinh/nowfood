@@ -511,3 +511,22 @@ p {
     color:#eee;
     padding:1rem 0;
 }
+
+/*footer*/
+.footer-edit{
+  margin: 0.3rem;
+}
+.footer-edit li {
+  /* style */
+  list-style: none;
+}
+.footer-edit strong{
+
+  font-size: 1.7rem;
+
+}
+.footer-edit li{
+
+  font-size: 1.5rem;
+
+}
