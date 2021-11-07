@@ -76,12 +76,6 @@ class Home extends Controller
     }
 
     public function bill($id) { //id of User
-        // $order = DB::table('orders')->where('user_id', $id)->get('id');
-        // $get_bill = array();
-        // foreach($order as $item){
-        //     array_push($get_bill, $item->id);
-        // }
-        // $bill = DB::table('bills')->whereIn('order_id', $get_bill)->get();
         $bill = DB::table('bills')
             ->join('orders', 'bills.order_id', '=', 'orders.id')
             ->join('products', 'orders.product_id', '=', 'products.id')
@@ -92,12 +86,6 @@ class Home extends Controller
     }
 
     public function getCart() {
-        // $info = DB::table('bills')
-        //     ->join('orders', 'bills.order_id', '=', 'orders.id')
-        //     ->join('products', 'orders.product_id', '=', 'products.id')
-        //     ->select('products.id', 'products.name', 'products.price', 'orders.quantity', 'bills.payment')
-        //     ->where('orders.user_id', '=', Auth::user()->id)
-        //     ->get();
         $id_order = DB::table('bills')->get('order_id');
         $get_id = array();
         foreach($id_order as $item) {
