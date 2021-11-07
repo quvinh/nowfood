@@ -21,15 +21,6 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [Home::class, 'home'])->name('home');
-Route::get('get-product/{id}', [Home::class, 'getProduct'])->name('index.get-product');
-Route::get('buy/{id}', [Home::class, 'buy'])->name('index.buy');
-Route::post('buy-product/{id}', [Home::class, 'buyProduct'])->name('index.buy-product');
-Route::get('bill/{id}', [Home::class, 'bill'])->name('index.bill');
-Route::get('cart', [Home::class, 'getCart'])->name('index.cart');
-Route::post('buy-cart/{id}', [Home::class, 'buyCart'])->name('index.buy-cart');
-Route::get('add-address/{id}', [Home::class, 'addAddress'])->name('index.add-address');
-Route::post('store-address/{id}', [Home::class, 'storeAddress'])->name('index.store-address');
-Route::post('store-comment', [Home::class, 'storeComment'])->name('index.store-comment');
 
 Route::get('register', [AuthController::class, 'showFormRegister'])->name('show-form-register');
 Route::post('register', [AuthController::class, 'register'])->name('register');
@@ -40,6 +31,16 @@ Route::middleware('checklogin')->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('profile', [AuthController::class, 'showProfile'])->name('show-profile');
     Route::put('profile', [AuthController::class, 'profile'])->name('profile');
+
+    Route::get('get-product/{id}', [Home::class, 'getProduct'])->name('index.get-product');
+    Route::get('buy/{id}', [Home::class, 'buy'])->name('index.buy');
+    Route::post('buy-product/{id}', [Home::class, 'buyProduct'])->name('index.buy-product');
+    Route::get('bill/{id}', [Home::class, 'bill'])->name('index.bill');
+    Route::get('cart', [Home::class, 'getCart'])->name('index.cart');
+    Route::post('buy-cart/{id}', [Home::class, 'buyCart'])->name('index.buy-cart');
+    Route::get('add-address/{id}', [Home::class, 'addAddress'])->name('index.add-address');
+    Route::post('store-address/{id}', [Home::class, 'storeAddress'])->name('index.store-address');
+    Route::post('store-comment', [Home::class, 'storeComment'])->name('index.store-comment');
 });
 
 Route::prefix('admin')->middleware('admin')->group(function() {
