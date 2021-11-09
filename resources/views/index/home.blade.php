@@ -31,6 +31,7 @@
     <div>
         <a href="{{ route('index.cart') }}">CART</a>
         @yield('content')
+        
     </div>
 </body>
 

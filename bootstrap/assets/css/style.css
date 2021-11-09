@@ -515,18 +515,26 @@ p {
 /*footer*/
 .footer-edit{
   margin: 0.3rem;
+display: table;
 }
 .footer-edit li {
   /* style */
   list-style: none;
+ 
+  font-size: 1.8rem !important;
+  font-weight: 400;
 }
-.footer-edit strong{
-
-  font-size: 1.7rem;
-
+ 
+.footer-edit strong.strong-size{
+  font-size: 2rem;
+  
 }
-.footer-edit li{
+.footer-edit li i{
+  text-indent: 2rem;
+}
 
-  font-size: 1.5rem;
 
+
+.footer-edit div.col-md-3 {
+ margin-top: .5rem;
 }
