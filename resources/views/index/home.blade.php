@@ -30,6 +30,8 @@
     <br>
     <div>
         <a href="{{ route('index.cart') }}">CART</a>
+        <a href="{{ route('index.bill') }}">BILL</a>
+        <a href="{{ route('index.get-inforcheckout') }}">CHECKOUT</a>
         @yield('content')
     </div>
 </body>

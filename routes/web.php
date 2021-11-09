@@ -35,12 +35,15 @@ Route::middleware('checklogin')->group(function() {
     Route::get('get-product/{id}', [Home::class, 'getProduct'])->name('index.get-product');
     Route::get('buy/{id}', [Home::class, 'buy'])->name('index.buy');
     Route::post('buy-product/{id}', [Home::class, 'buyProduct'])->name('index.buy-product');
-    Route::get('bill/{id}', [Home::class, 'bill'])->name('index.bill');
+    Route::get('bill', [Home::class, 'bill'])->name('index.bill');
+    // Route::post('bill-received/{id}', [Home::class, 'billReceived'])->name('index.bill-received');
     Route::get('cart', [Home::class, 'getCart'])->name('index.cart');
     Route::post('buy-cart/{id}', [Home::class, 'buyCart'])->name('index.buy-cart');
     Route::get('add-address/{id}', [Home::class, 'addAddress'])->name('index.add-address');
     Route::post('store-address/{id}', [Home::class, 'storeAddress'])->name('index.store-address');
     Route::post('store-comment', [Home::class, 'storeComment'])->name('index.store-comment');
+    Route::get('get-inforcheckout', [Home::class, 'getInfoCheckout'])->name('index.get-inforcheckout');
+    Route::post('store-inforcheckout/{id}', [Home::class, 'storeInfoCheckout'])->name('index.store-inforcheckout');
 });
 
 Route::prefix('admin')->middleware('admin')->group(function() {
