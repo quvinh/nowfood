@@ -15,7 +15,7 @@ class CreateBillTable extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id');
+            $table->bigInteger('order_id');
             $table->integer('payment');
             $table->binary('status');
             $table->timestamps();
