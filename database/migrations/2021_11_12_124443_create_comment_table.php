@@ -18,7 +18,7 @@ class CreateCommentTable extends Migration
             $table->bigInteger('user_id');
             $table->bigInteger('product_id');
             $table->string('comment');
-            $table->string('start',1);
+            $table->float('star',1,1)->nullable();
             $table->timestamps();
         });
     }
