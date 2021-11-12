@@ -180,7 +180,7 @@ class WebController extends Controller
         $order_ck = DB::table('orders')
             ->where('product_id', $request->product_id)
             ->where('user_id', $request->user_id)
-            ->get('id')
+            ->get()
             ->count();
         // dd($order_ck);
         $bill_ck = DB::table('bills')
