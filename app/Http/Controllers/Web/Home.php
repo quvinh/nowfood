@@ -80,7 +80,7 @@ class Home extends Controller
         $bill = DB::table('bills')
             ->join('orders', 'bills.order_id', '=', 'orders.id')
             ->join('products', 'orders.product_id', '=', 'products.id')
-            ->select('products.id as product_id', 'products.name', 'products.price', 'orders.quantity', 'bills.payment', 'bills.status', 'bills.id')
+            ->select('products.id as product_id', 'products.name', 'products.image', 'products.price', 'orders.quantity', 'bills.payment', 'bills.status', 'bills.id')
             ->where('orders.user_id', '=', Auth::user()->id)
             ->get();
         return view('index.bill', compact('bill'));
@@ -100,12 +100,18 @@ class Home extends Controller
         $info = DB::table('orders')
             ->join('products', 'products.id', '=', 'orders.product_id')
             ->select('products.name', 'products.price', 'products.image', 'orders.*')
-            ->addSelect(DB::raw('(products.price * orders.quantity+10000) as total'))
+            ->addSelect(DB::raw('(products.price * orders.quantity) as total'))
             ->where('user_id', Auth::user()->id)
             ->whereNotIn('orders.id', $get_id)
             ->get();
         // dd($info);
-        return view('index.cart', compact('info'));
+        $sub_price = 0;
+        foreach($info as $item) {
+            $sub_price += $item->total;
+        }
+        $all_price = $sub_price + 10000;
+        // dd($all_price);
+        return view('index.cart', compact('info', 'sub_price', 'all_price'));
     }
 
     public function buyCart(Request $request, $id) {//id: Product
