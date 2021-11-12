@@ -6,7 +6,7 @@ Categories
 
 @section('content')
     <br>
-    <a type="button" class="btn btn-primary" href="/create-category">Thêm danh mục</a>
+    <a type="button" class="btn btn-primary" href="{{ route('create-category') }}">Thêm danh mục</a>
     <br><br>
     <table class="table table-bordered border-primary">
         <thead>
