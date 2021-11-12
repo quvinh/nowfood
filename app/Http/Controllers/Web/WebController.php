@@ -180,7 +180,7 @@ class WebController extends Controller
         $order_ck = DB::table('orders')
             ->where('product_id', $request->product_id)
             ->where('user_id', $request->user_id)
-            // ->get()
+            ->get()
             ->count();
         // dd($order_ck);
         $bill_ck = DB::table('bills')
@@ -188,7 +188,7 @@ class WebController extends Controller
             ->join('products', 'products.id', '=', 'orders.product_id')
             ->where('orders.product_id', $request->product_id)
             ->where('orders.user_id', $request->user_id)
-            // ->get()
+            ->get()
             ->count();
         // dd($checkout_bill_add_order);
         if($order_ck > 0) {
