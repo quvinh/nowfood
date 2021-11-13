@@ -77,7 +77,8 @@ class WebController extends Controller
 
     public function createProduct()
     {
-        return view('web.product.create');
+        $category = Category::all();
+        return view('web.product.create', compact('category'));
     }
 
     public function storeProduct(Request $request)
@@ -123,7 +124,8 @@ class WebController extends Controller
     public function editProduct($id)
     {
         $product = Product::find($id);
-        return view('web.product.edit', compact('product'));
+        $category = Category::all();
+        return view('web.product.edit', compact('product', 'category'));
     }
 
     public function updateProduct(Request $request, $id)

@@ -5,13 +5,17 @@
 @endsection
 
 @section('content')
-    <p>Name: {{ $product->name }}</p>
-    <p>Price: {{ $product->price }}</p>
-    <p>Description: {{ $product->description }}</p>
-    <p>Quantity: {{ $product->quantity }}</p>
-    <img src="{{ asset('images/'.$product->image) }}" alt="IMAGE">
-    <br>
-    <a href="/admin/product">All product</a>
-    <a href="/admin/edit-product/{{ $product->id }}">edit</a>
-    <a href="/admin/delete-product/{{ $product->id }}">delete</a>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">{{ $product->name }}</h3>
+            <p>Price: {{ $product->price }} VND</p>
+            <p>Quantity: {{ $product->quantity }}</p>
+            <img src="{{ asset('images/'.$product->image) }}" alt="IMAGE">
+            <p>Description: {{ $product->description }}</p>
+            <br>
+            <a href="{{ route('product') }}">All product</a>
+            <a href="{{ route('edit-product', $product->id) }}">Edit</a>
+            <a href="{{ route('delete-product', $product->id) }}">Delete</a>
+        </div>
+    </div>
 @endsection
