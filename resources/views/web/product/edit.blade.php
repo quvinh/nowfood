@@ -8,7 +8,7 @@
     <br><br>
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title">Thêm món</h3>
+            <h3 class="card-title">Sửa món</h3>
             <br>
             <form action="{{ route('update-product', $product->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
@@ -39,7 +39,7 @@
                     <label for="image" class="form-label">Chọn ảnh</label>
                     <input class="form-control" type="file" id="image" name="image" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Tạo mới</button>
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
               </form>
         </div>
     </div>
