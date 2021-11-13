@@ -119,6 +119,10 @@ class Home extends Controller
             'product_id' => 'required',
             'total' => 'required',
         ]);
+        $check_address = DB::table('address')->where('user_id', Auth::user()->id)->get()->count();
+        if($check_address == 0) {
+            return redirect()->route('index.add-address', $id);
+        }
         $get_order = DB::table('orders')->where('product_id', $id)->where('user_id', Auth::user()->id)->get();
         $bill = new Bill();
         $bill->order_id = $get_order[0]->id;
