@@ -30,13 +30,14 @@
                   <input type="text" class="form-control" id="description" name="description" placeholder="Mô tả" required>
                 </div>
                 <div class="form-group">
-                    <label for="price">Số lượng</label>
-                    <input type="text" class="form-control" id="price" name="price" placeholder="Số lượng" required>
+                    <label for="quantity">Số lượng</label>
+                    <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Số lượng" required>
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Chọn ảnh</label>
                     <input class="form-control" type="file" id="image" name="image" required>
                 </div>
+                <br>
                 <button type="submit" class="btn btn-primary">Tạo mới</button>
               </form>
         </div>

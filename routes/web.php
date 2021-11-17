@@ -44,6 +44,7 @@ Route::middleware('checklogin')->group(function() {
     Route::post('store-comment', [Home::class, 'storeComment'])->name('index.store-comment');
     Route::get('get-inforcheckout', [Home::class, 'getInfoCheckout'])->name('index.get-inforcheckout');
     Route::post('store-inforcheckout/{id}', [Home::class, 'storeInfoCheckout'])->name('index.store-inforcheckout');
+    Route::get('search-product', [Home::class, 'searchProduct'])->name('search-product');
 });
 
 Route::prefix('admin')->middleware('admin')->group(function() {

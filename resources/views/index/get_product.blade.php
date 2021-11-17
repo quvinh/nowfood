@@ -81,43 +81,36 @@
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="section-title">
-						<h3><span class="orange-text">Related</span> Products</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
+						<h3><span class="orange-text">Có thể</span> quan tâm</h3>
+						<p>Nhanh chóng, tiện lợi, không phải đợi lâu</p>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="single-product.html"><img src="assets/img/products/product-img-1.jpg" alt=""></a>
-						</div>
-						<h3>Strawberry</h3>
-						<p class="product-price"><span>Per Kg</span> 85$ </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="single-product.html"><img src="assets/img/products/product-img-2.jpg" alt=""></a>
-						</div>
-						<h3>Berry</h3>
-						<p class="product-price"><span>Per Kg</span> 70$ </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 offset-lg-0 offset-md-3 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="single-product.html"><img src="assets/img/products/product-img-3.jpg" alt=""></a>
-						</div>
-						<h3>Lemon</h3>
-						<p class="product-price"><span>Per Kg</span> 35$ </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-					</div>
-				</div>
-			</div>
+                @foreach($related_product as $item)
+                    <div class="col-lg-4 col-md-6 text-center">
+                        <div class="single-product-item">
+                            <div class="product-image">
+                                <a href="{{ route('index.get-product', $item->id) }}"><img style="height: 200px;" src="{{ asset('images/'.$item->image) }}" alt=""></a>
+                            </div>
+                            <h3>{{ $item->name }}</h3>
+                            <p class="product-price"><span>Per</span> {{ $item->price }} VND</p>
+                            <form action="{{ route('store-order') }}" method="post">
+                                @csrf
+                                <input type="text" name="product_id" value="{{ $item->id }}" hidden>
+                                @if(Route::has('login'))
+                                    @auth
+                                        <input type="text" name="user_id" value="{{ Auth::user()->id }}" hidden>
+                                    @endauth
+                                @endif
+                                <a type="button" class="cart-btn" href="{{ route('index.buy', $item->id )}}">Mua ngay</a>
+                                <!-- <a type="submit" class="cart-btn"><i class="fas fa-shopping-cart"></i></a> -->
+                                <button type="submit" class="btn btn-info"><i class="fas fa-shopping-cart"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
 		</div>
 	</div>
 	<!-- end more products -->

@@ -146,6 +146,7 @@ class WebController extends Controller
             $product->price = $request->price;
             $product->image = $name;
             $product->description = $request->description;
+            $product->quantity = $request->quantity;
             $product->save();
         }
 

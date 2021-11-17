@@ -9,7 +9,7 @@
     <!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script> -->
 
     <!-- favicon -->
-	<link rel="shortcut icon" type="image/png" href="{{ asset('images/img/favicon.png') }}">
+	<link rel="shortcut icon" type="image/png" href="{{ asset('images/img/fast-food.png') }}">
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
@@ -50,7 +50,7 @@
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="{{ route('home') }}">
-								<img src="{{ asset('images/img/logo.png') }}" alt="">
+								<img src="{{ asset('images/img/logoF.png') }}" alt="">
 							</a>
 						</div>
 						<!-- logo -->
@@ -64,8 +64,7 @@
 										<li><a href="#">Slider Home</a></li>
 									</ul>
 								</li>
-								<li><a href="#">About</a></li>
-								<li><a href="#">Pages</a>
+								<!-- <li><a href="#">Pages</a>
 									<ul class="sub-menu">
 										<li><a href="#">404 page</a></li>
 										<li><a href="#">About</a></li>
@@ -75,34 +74,35 @@
 										<li><a href="#">News</a></li>
 										<li><a href="#">Shop</a></li>
 									</ul>
-								</li>
+								</li> -->
 								<li><a href="#">News</a>
 									<ul class="sub-menu">
 										<li><a href="#">News</a></li>
 										<li><a href="#">Single News</a></li>
 									</ul>
 								</li>
-								<li><a href="#">Contact</a></li>
 								<li><a href="#">Shop</a>
 									<ul class="sub-menu">
 										<li><a href="#">Shop</a></li>
 										<li><a href="{{ route('index.get-inforcheckout') }}">Đã thanh toán</a></li>
                                         <li><a href="{{ route('index.bill') }}">Hoá đơn</a></li>
-										<li><a href="#">Single Product</a></li>
+										<!-- <li><a href="#">Single Product</a></li> -->
 										<li><a href="{{ route('index.cart') }}">Giỏ hàng</a></li>
 									</ul>
 								</li>
+                                <li><a href="#">Liên hệ</a></li>
+                                <li><a href="#">About</a></li>
                                 @if (Route::has('login'))
                                     @auth
                                         <li>
-                                            <a>Tên đăng nhập: {{ Auth::user()->name }}</a>
+                                            <a href="#">Tên đăng nhập: {{ Auth::user()->name }}</a>
                                             <ul class="sub-menu">
                                                 <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
                                             </ul>
                                         </li>
                                     @else
                                         <li>
-                                            <a>Chưa đăng nhập</a>
+                                            <a href="#">Chưa đăng nhập</a>
                                             <ul class="sub-menu">
                                                 <li><a href="{{ route('login') }}">Đăng nhập</a></li>
                                                 @if (Route::has('register'))
@@ -139,8 +139,11 @@
 					<div class="search-bar">
 						<div class="search-bar-tablecell">
 							<h3>Search For:</h3>
-							<input type="text" placeholder="Keywords">
-							<button type="submit">Search <i class="fas fa-search"></i></button>
+                            <form action="{{ route('search-product') }}" method="get">
+                                @csrf
+                                <input type="text" name="name" placeholder="Từ khoá">
+                                <button type="submit">Tìm món <i class="fas fa-search"></i></button>
+                            </form>
 						</div>
 					</div>
 				</div>
@@ -192,15 +195,15 @@
 				<div class="col-lg-3 col-md-6">
 					<div class="footer-box about-widget">
 						<h2 class="widget-title">About us</h2>
-						<p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
+						<p>Fastfood ược xây dựng để cho mọi người có thể tìm kiếm, đánh giá, bình luận các thức ăn nhanh, tiện lợi tại Việt Nam - từ website. Tất cả thành viên từ Bắc đến Nam, Fastfood kết nối những thực khách đến với các món ăn ngon.</p>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-6">
 					<div class="footer-box get-in-touch">
 						<h2 class="widget-title">Get in Touch</h2>
 						<ul>
-							<li>34/8, East Hukupara, Gifirtok, Sadan.</li>
-							<li>support@fruitkha.com</li>
+							<li>Hải phòng</li>
+							<li>support@fastfood.com</li>
 							<li>+00 111 222 3333</li>
 						</ul>
 					</div>
@@ -209,18 +212,18 @@
 					<div class="footer-box pages">
 						<h2 class="widget-title">Pages</h2>
 						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="about.html">About</a></li>
-							<li><a href="services.html">Shop</a></li>
-							<li><a href="news.html">News</a></li>
-							<li><a href="contact.html">Contact</a></li>
+							<li><a href="{{ route('home') }}">Home</a></li>
+							<li><a href="#">About</a></li>
+							<li><a href="#">Shop</a></li>
+							<li><a href="#">News</a></li>
+							<li><a href="#">Contact</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-6">
 					<div class="footer-box subscribe">
 						<h2 class="widget-title">Subscribe</h2>
-						<p>Subscribe to our mailing list to get the latest updates.</p>
+						<p>Đăng ký mail ngay để nhận những cập nhật mới nhất</p>
 						<form action="index.html">
 							<input type="email" placeholder="Email">
 							<button type="submit"><i class="fas fa-paper-plane"></i></button>
@@ -237,7 +240,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
-					<p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">Imran Hossain</a>,  All Rights Reserved.</p>
+					<p>Copyrights &copy; Công Ty Cổ Phần <a href="https://imransdesign.com/">Fastfood</a>.</p>
 				</div>
 				<div class="col-lg-6 text-right col-md-12">
 					<div class="social-icons">

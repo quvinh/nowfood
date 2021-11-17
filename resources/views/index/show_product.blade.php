@@ -1,7 +1,7 @@
 @extends('index.home')
 
 @section('title')
-    Home
+    Trang chủ
 @endsection
 
 @section('hero_area')
@@ -19,12 +19,17 @@
             <div class="row">
                 <div class="col-lg-8 offset-lg-2 text-center">
                     <div class="section-title">
-                        <h3><span class="orange-text">Our</span> Products</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
+                        <h3><span class="orange-text">Fast</span> Food</h3>
+                        <p>Nhanh chóng, tiện lợi, không phải đợi lâu</p>
                     </div>
                 </div>
             </div>
             <div class="row">
+                @if($product->count() == 0)
+                    <div class="d-flex justify-content-center">
+                        <h6>Không có món nào :(</h6>
+                    </div>
+                @endif
                 @foreach($product as $item)
                     <div class="col-lg-4 col-md-6 text-center">
                         <div class="single-product-item">

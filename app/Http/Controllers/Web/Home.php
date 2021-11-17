@@ -23,12 +23,20 @@ class Home extends Controller
 
     public function getProduct($id) {
         $product = Product::find($id);
+        // $category_id = DB::table('categories')
+        //     ->join('products', 'products.category_id', '=', 'categories.id')
+        //     ->where('products.id', '=', $id)
+        //     ->get('id');
         $comment = DB::table('comments')
             ->join('users', 'users.id', '=', 'comments.user_id')
             ->where('comments.product_id', $id)
             ->get();
+        $related_product = DB::table('products')
+            ->where('category_id', '=', $product->category->id)
+            ->get();
+
         // dd($comment);
-        return view('index.get_product', compact('product', 'comment'));
+        return view('index.get_product', compact('product', 'comment', 'related_product'));
     }
 
     public function buy($id) {//id : Product
@@ -196,5 +204,12 @@ class Home extends Controller
         DB::table('orders')->where('id', $bill[0]->order_id)->delete();
 
         return redirect()->route('index.bill');
+    }
+
+    public function searchProduct(Request $request) {
+        $request->validate(['name']);
+        $product = DB::table('products')->where('name', 'like', $request->name.'%')->get();
+        // dd($product);
+        return view('index.show_product', compact('product'));
     }
 }

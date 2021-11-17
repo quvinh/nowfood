@@ -20,6 +20,7 @@
                   <label for="description">Mô tả</label>
                   <input type="text" class="form-control" id="description" name="description" value="{{ $category->description }}">
                 </div>
+                <br>
                 <button type="submit" class="btn btn-primary">Cập nhật</button>
               </form>
         </div>

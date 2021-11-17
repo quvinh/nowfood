@@ -19,6 +19,7 @@
                   <label for="description">Mô tả</label>
                   <input type="text" class="form-control" id="description" name="description" placeholder="Mô tả">
                 </div>
+                <br>
                 <button type="submit" class="btn btn-primary">Tạo mới</button>
               </form>
         </div>
