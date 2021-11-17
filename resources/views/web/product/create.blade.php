@@ -12,7 +12,7 @@
             <form action="{{ route('store-product') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <select class="form-select" aria-label="Default select example" name="category_id" required>
-                    <option selected>Select menu</option>
+                    <option selected value="">Select menu</option>
                     @foreach($category as $item)
                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                     @endforeach
