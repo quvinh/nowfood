@@ -46,9 +46,13 @@
                                         <input type="text" name="user_id" value="{{ Auth::user()->id }}" hidden>
                                     @endauth
                                 @endif
-                                <a type="button" class="cart-btn" href="{{ route('index.buy', $item->id )}}">Mua ngay</a>
-                                <!-- <a type="submit" class="cart-btn"><i class="fas fa-shopping-cart"></i></a> -->
-                                <button type="submit" class="btn btn-info"><i class="fas fa-shopping-cart"></i></button>
+                                @if($item->quantity > 0)
+                                    <a type="button" class="cart-btn" href="{{ route('index.buy', $item->id )}}">Mua ngay</a>
+                                    <!-- <a type="submit" class="cart-btn"><i class="fas fa-shopping-cart"></i></a> -->
+                                    <button type="submit" class="btn btn-info"><i class="fas fa-shopping-cart"></i></button>
+                                @else
+                                    <button type="button" class="btn btn-danger">HẾT HÀNG</button>
+                                @endif
                             </form>
                         </div>
                     </div>

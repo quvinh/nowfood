@@ -17,7 +17,7 @@
                 <th scope="col">Tên món</th>
                 <th scope="col">Đơn giá/món</th>
                 <th scope="col">Số lượng đặt</th>
-                <th scope="col">#</th>
+                <th scope="col">Thao tác</th>
             </tr>
         </thead>
         <tbody>

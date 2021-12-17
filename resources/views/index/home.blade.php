@@ -64,23 +64,12 @@
 										<li><a href="#">Slider Home</a></li>
 									</ul>
 								</li>
-								<!-- <li><a href="#">Pages</a>
-									<ul class="sub-menu">
-										<li><a href="#">404 page</a></li>
-										<li><a href="#">About</a></li>
-										<li><a href="#">Cart</a></li>
-										<li><a href="#">Check Out</a></li>
-										<li><a href="#">Contact</a></li>
-										<li><a href="#">News</a></li>
-										<li><a href="#">Shop</a></li>
-									</ul>
-								</li> -->
-								<li><a href="#">News</a>
+								<!-- <li><a href="#">News</a>
 									<ul class="sub-menu">
 										<li><a href="#">News</a></li>
 										<li><a href="#">Single News</a></li>
 									</ul>
-								</li>
+								</li> -->
 								<li><a href="#">Shop</a>
 									<ul class="sub-menu">
 										<li><a href="#">Shop</a></li>
@@ -97,6 +86,7 @@
                                         <li>
                                             <a href="#">Tên đăng nhập: {{ Auth::user()->name }}</a>
                                             <ul class="sub-menu">
+                                                <li><a href="{{ route('profile') }}">Thông tin</a></li>
                                                 <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
                                             </ul>
                                         </li>
@@ -224,7 +214,7 @@
 					<div class="footer-box subscribe">
 						<h2 class="widget-title">Subscribe</h2>
 						<p>Đăng ký mail ngay để nhận những cập nhật mới nhất</p>
-						<form action="index.html">
+						<form action="">
 							<input type="email" placeholder="Email">
 							<button type="submit"><i class="fas fa-paper-plane"></i></button>
 						</form>

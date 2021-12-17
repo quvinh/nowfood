@@ -27,11 +27,15 @@
 						<p class="single-product-pricing"><span>Per</span> {{ $product->price }} vnd</p>
 						<p>{{ $product->description }}</p>
 						<div class="single-product-form">
-							<form action="">
-                                <label for="">Kho</label>
-								<input type="number" placeholder="{{ $product->quantity }}" readonly>
-							</form>
-                            <a type="button" class="cart-btn" href="{{ route('index.buy', $product->id )}}">Mua ngay</a>
+                            @if($product->quantity > 0)
+                                <form action="">
+                                    <label for="">Kho</label>
+                                    <input type="number" placeholder="{{ $product->quantity }}" readonly>
+                                </form>
+                                <a type="button" class="cart-btn" href="{{ route('index.buy', $product->id )}}">Mua ngay</a>
+                            @else
+                                <button type="button" class="btn btn-danger">HẾT HÀNG</button>
+                            @endif
 							<!-- <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a> -->
 							<p><strong>Loại: </strong>{{ $product->category->name }}</p>
 						</div>

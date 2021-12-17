@@ -179,7 +179,10 @@ class WebController extends Controller
             'product_id' => 'required',
             'user_id' => 'required'
         ]);
-
+        $product_ck = DB::table('products')
+            ->where('id', $request->product_id)
+            ->get('quantity');
+        // dd(--$product_ck[0]->quantity);
         $order_ck = DB::table('orders')
             ->where('product_id', $request->product_id)
             ->where('user_id', $request->user_id)
@@ -194,19 +197,23 @@ class WebController extends Controller
             ->get()
             ->count();
         // dd($checkout_bill_add_order);
-        if($order_ck > 0) {
-            $order = DB::table('orders')->where('product_id', $request->product_id)->where('user_id', $request->user_id)->get();
-            if($bill_ck == 0) {
-                Order::where('product_id', $request->product_id)->where('user_id', $request->user_id)->update(['quantity' => ++$order[0]->quantity]);
+        if($product_ck[0]->quantity > 0) {
+            if($order_ck > 0) {
+                $order = DB::table('orders')->where('product_id', $request->product_id)->where('user_id', $request->user_id)->get();
+                if($bill_ck == 0) {
+                    Product::where('id', $request->product_id)->update(['quantity' => --$product_ck[0]->quantity]);
+                    Order::where('product_id', $request->product_id)->where('user_id', $request->user_id)->update(['quantity' => ++$order[0]->quantity]);
+                } else {
+                    return redirect()->route('index.bill');
+                }
             } else {
-                return redirect()->route('index.bill');
+                Product::where('id', $request->product_id)->update(['quantity' => --$product_ck[0]->quantity]);
+                $order = new Order();
+                $order->product_id = $request->product_id;
+                $order->user_id = $request->user_id;
+                $order->quantity = 1;
+                $order->save();
             }
-        } else {
-            $order = new Order();
-            $order->product_id = $request->product_id;
-            $order->user_id = $request->user_id;
-            $order->quantity = 1;
-            $order->save();
         }
         return redirect('/');
     }

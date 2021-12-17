@@ -46,7 +46,7 @@
                                     </tr>
                                     <tr class="total-data">
                                         <td><strong>Số lượng: </strong></td>
-                                        <td class="product-quantity"><input id="quantity" type="number" name="quantity" onchange="onChange();" value="0"></td>
+                                        <td class="product-quantity"><input id="quantity" type="number" name="quantity" onchange="onChange();" value="0" max="{{ $product->quantity }}"></td>
                                     </tr>
                                     <tr class="total-data">
                                         <td><strong>Tổng: </strong></td>

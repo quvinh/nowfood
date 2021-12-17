@@ -22,22 +22,28 @@
 							<thead class="cart-table-head">
 								<tr class="table-head-row">
 									<th class="product-remove"></th>
-									<th class="product-image">Product Image</th>
-									<th class="product-name">Name</th>
-									<th class="product-price">Price</th>
-									<th class="product-quantity">Quantity</th>
-									<th class="product-total">Total</th>
+									<th class="product-image">Hình ảnh</th>
+									<th class="product-name">Sản phẩm</th>
+									<th class="product-price">Giá</th>
+									<th class="product-quantity">Số lượng đặt</th>
+									<th class="product-total">Tổng</th>
                                     <th></th>
 								</tr>
 							</thead>
 							<tbody>
                                 @foreach($info as $item)
                                     <tr class="table-body-row">
-                                        <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
+                                        <td class="product-remove">
+                                            <form action="{{ route('index.cancel-cart', $item->id) }}" method="post">
+                                                @csrf
+                                                <!-- <a href="#" onclick="this.form.submit();"><i class="far fa-window-close"></i></a> -->
+                                                <button type="submit"><i class="far fa-window-close"></i></button>
+                                            </form>
+                                        </td>
                                         <td class="product-image"><img src="{{ asset('images/'.$item->image) }}" alt=""></td>
                                         <td class="product-name">{{ $item->name }}</td>
                                         <td class="product-price">{{ $item->price }} VND</td>
-                                        <td class="product-quantity"><input type="number" value="{{ $item->quantity }}"></td>
+                                        <td class="product-quantity"><input type="number" value="{{ $item->quantity }}" readonly></td>
                                         <td class="product-total">{{ $item->total }} VND</td>
                                         <td>
                                             <form action="{{ route('index.buy-cart', $item->product_id) }}" method="post">
@@ -59,13 +65,13 @@
 						<table class="total-table">
 							<thead class="total-table-head">
 								<tr class="table-total-row">
-									<th>Total</th>
-									<th>Price</th>
+									<th>Tổng</th>
+									<th>Giá</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr class="total-data">
-									<td><strong>Subtotal: </strong></td>
+									<td><strong>Tổng: </strong></td>
 									<td>{{ $sub_price }} VND</td>
 								</tr>
 								<tr class="total-data">
@@ -73,7 +79,7 @@
 									<td>10 000 VND</td>
 								</tr>
 								<tr class="total-data">
-									<td><strong>Total: </strong></td>
+									<td><strong>Thành tiền: </strong></td>
 									<td>{{ $all_price }} VND</td>
 								</tr>
 							</tbody>

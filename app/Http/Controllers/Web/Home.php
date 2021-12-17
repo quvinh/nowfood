@@ -12,6 +12,7 @@ use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\VarDumper\Caster\RedisCaster;
 
 class Home extends Controller
@@ -67,21 +68,29 @@ class Home extends Controller
             'quantity' => 'required|min:1',
             'total' => 'required'
         ]);
+        $product_ck = DB::table('products')
+            ->where('id', $id)
+            ->get('quantity');
+        // dd($product_ck[0]->quantity - $request->quantity);
+        if($product_ck[0]->quantity > 0) {
+            Product::where('id', $id)->update(['quantity' => $product_ck[0]->quantity - $request->quantity]);
+            $order = new Order();
+            $order->product_id = $id;
+            $order->user_id = Auth::user()->id;
+            $order->quantity = $request->quantity;
+            $order->save();
 
-        $order = new Order();
-        $order->product_id = $id;
-        $order->user_id = Auth::user()->id;
-        $order->quantity = $request->quantity;
-        $order->save();
+            $get_order = DB::table('orders')->where('product_id', $id)->where('user_id', Auth::user()->id)->get();
+            $bill = new Bill();
+            $bill->order_id = $get_order[0]->id;
+            $bill->payment = $request->total;
+            $bill->status = 0;
+            $bill->save();
 
-        $get_order = DB::table('orders')->where('product_id', $id)->where('user_id', Auth::user()->id)->get();
-        $bill = new Bill();
-        $bill->order_id = $get_order[0]->id;
-        $bill->payment = $request->total;
-        $bill->status = 0;
-        $bill->save();
-
-        return redirect()->route('index.bill');
+            return redirect()->route('index.bill');
+        } else {
+            return redirect('buy/'.$id);
+        }
     }
 
     public function bill() { //id of User
@@ -139,6 +148,17 @@ class Home extends Controller
         $bill->save();
 
         return redirect()->route('index.bill');
+    }
+
+    public function cancelCart($id) {//id: Order
+        // $request->validate(([
+        //     'id' => 'required'
+        // ]));
+        $order_ck = DB::table('orders')->where('id', $id)->get();
+        // dd($order_ck[0]);
+        Product::where('id', $order_ck[0]->product_id)->update(['quantity' => $order_ck[0]->quantity]);
+        DB::table('orders')->where('id', $id)->delete();
+        return redirect()->route('index.cart');
     }
 
     public function addAddress($id) { //id: Product
@@ -202,6 +222,11 @@ class Home extends Controller
         $info_checkout->save();
         DB::table('bills')->where('id', $id)->delete();
         DB::table('orders')->where('id', $bill[0]->order_id)->delete();
+
+        Mail::send('email.mailRespond', ['name' => $info[0]->name], function($message) {
+            $message->to(Auth::user()->email);
+            $message->subject('Thank you');
+        });
 
         return redirect()->route('index.bill');
     }

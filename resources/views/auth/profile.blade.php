@@ -21,9 +21,11 @@
                     </div>
                     <input type="password" class="form-control" aria-label="Text input with checkbox" name="password" placeholder="Change password">
                 </div>
-                <button type="submit">Update</button>
+                <button class="btn btn-primary" type="submit">Cập nhật thông tin</button>
             </form>
-            <a href="{{ route('logout') }}">logout</a>
+            <br>
+            <a class="btn btn-success" href="{{ route('home') }}">Trang chủ</a>
+            <a class="btn btn-secondary" href="{{ route('logout') }}">Đăng xuất</a>
         </div>
     </div>
 

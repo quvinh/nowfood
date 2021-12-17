@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Web\ForgotPassword;
 use App\Http\Controllers\Web\Home;
 use App\Http\Controllers\Web\WebController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,11 @@ Route::get('register', [AuthController::class, 'showFormRegister'])->name('show-
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::get('login', [AuthController::class, 'showFormLogin'])->name('show-form-login');
 Route::post('login', [AuthController::class, 'login'])->name('login');
+//Password reset
+Route::get('forget-password', [ForgotPassword::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::post('forget-password', [ForgotPassword::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+Route::get('reset-password/{token}', [ForgotPassword::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('reset-password', [ForgotPassword::class, 'submitResetPasswordForm'])->name('reset.password.post');
 //
 Route::middleware('checklogin')->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
@@ -45,6 +51,9 @@ Route::middleware('checklogin')->group(function() {
     Route::get('get-inforcheckout', [Home::class, 'getInfoCheckout'])->name('index.get-inforcheckout');
     Route::post('store-inforcheckout/{id}', [Home::class, 'storeInfoCheckout'])->name('index.store-inforcheckout');
     Route::get('search-product', [Home::class, 'searchProduct'])->name('search-product');
+    //
+    Route::post('store-order', [WebController::class, 'storeOrder'])->name('store-order');
+    Route::post('cancel-cart/{id}', [Home::class, 'cancelCart'])->name('index.cancel-cart');
 });
 
 Route::prefix('admin')->middleware('admin')->group(function() {
@@ -73,4 +82,3 @@ Route::prefix('admin')->middleware('admin')->group(function() {
     Route::get('delete-order/{id}', [WebController::class, 'deleteOrder'])->name('delete-order');
 });
 
-Route::post('store-order', [WebController::class, 'storeOrder'])->name('store-order');
