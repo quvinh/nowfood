@@ -21,6 +21,10 @@
     <!-- Custom Fonts -->
     <!-- <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Theme included stylesheets -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
     <title>Admin Nowfood</title>
 </head>
 
@@ -65,7 +69,7 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
+                        <!-- <li class="sidebar-search">
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
@@ -74,8 +78,7 @@
                                     </button>
                                 </span>
                             </div>
-                            <!-- /input-group -->
-                        </li>
+                        </li> -->
                         <li>
                             <a href="{{ route('admin') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
@@ -90,6 +93,9 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('get-order') }}">Giỏ hàng</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('news') }}">Bài viết</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -119,7 +125,7 @@
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <i class="fa fa-comments fa-5x"></i>
+                                        <i class="fa fa-caret-square-o-left fa-5x" aria-hidden="true"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <!-- <div class="huge">26</div> -->
@@ -142,7 +148,8 @@
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
+                                        <!-- <i class="fa fa-tasks fa-5x"></i> -->
+                                        <i class="fa fa-product-hunt fa-5x" aria-hidden="true"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <!-- <div class="huge">12</div> -->
@@ -188,15 +195,16 @@
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <i class="fa fa-support fa-5x"></i>
+                                        <!-- <i class="fa fa-support fa-5x"></i> -->
+                                        <i class="fa fa-comments fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <!-- <div class="huge">13</div> -->
-                                        <div>Thống kê</div>
+                                        <div>Bài viết</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="{{ route('news') }}">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -259,6 +267,7 @@
             });
         });
     </script>
+    @include('web.quilljs')
 </body>
 
 </html>

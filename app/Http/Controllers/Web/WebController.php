@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Web;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\News;
 use App\Order;
 use App\Product;
+use Dotenv\Store\File\Reader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -216,5 +218,47 @@ class WebController extends Controller
             }
         }
         return redirect('/');
+    }
+
+    /////////////////
+
+    public function news() {
+        $news = News::all();
+        return view('web.news.index', compact('news'));
+    }
+
+    public function createNews() {
+        return view('web.news.create');
+    }
+
+    public function storeNews(Request $request) {
+        $request->validate([
+            'title',
+            'content'
+        ]);
+
+        News::create($request->all());
+        return redirect()->route('news');
+    }
+
+    public function editNews($id) {
+        $news = News::find($id);
+        return view('web.news.edit', compact('news'));
+    }
+
+    public function updateNews(Request $request, $id) {
+        $request->validate([
+            'tilte',
+            'content'
+        ]);
+        $news = News::find($id);
+        $news->update($request->all());
+        return redirect()->route('news');
+    }
+
+    public function deleteNews($id) {
+        $news = News::find($id);
+        $news->delete();
+        return redirect()->route('news');
     }
 }

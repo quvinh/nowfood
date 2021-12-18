@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Web;
 
 use App\Address;
 use App\Bill;
+use App\Category;
 use App\Comment;
 use App\Http\Controllers\Controller;
 use App\Info_checkout;
+use App\News;
 use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
@@ -18,6 +20,7 @@ use Symfony\Component\VarDumper\Caster\RedisCaster;
 class Home extends Controller
 {
     public function home() {
+        // $categories = Category::all();
         $product = Product::all();
         return view('index.show_product', compact('product'));
     }
@@ -189,6 +192,11 @@ class Home extends Controller
 
     public function getInfoCheckout() {
         $info = DB::table('info_checkouts')->where('user_id', Auth::user()->id)->get();
+        $user_info = DB::table('info_checkouts')
+            ->select('name_product', DB::raw('count(*) as total'))
+            ->groupBy('name_product')
+            ->get();
+        dd($user_info);
         return view('index.checkout', compact('info'));
     }
 
@@ -236,5 +244,26 @@ class Home extends Controller
         $product = DB::table('products')->where('name', 'like', $request->name.'%')->get();
         // dd($product);
         return view('index.show_product', compact('product'));
+    }
+
+    public function news() {
+        $news = News::all();
+        return view('index.news', compact('news'));
+    }
+
+    public function singleNews($id) {
+        $news = News::find($id);
+        return view('index.single_news', compact('news'));
+    }
+
+    public function listProducts($id) {
+        // $categories = Category::all();
+        $category = Category::find($id);
+        $product = DB::table('products')->where('category_id', $id)->get();
+        return view('index.list_products',compact('category', 'product'));
+    }
+
+    public function contact() {
+        return view('index.contact');
     }
 }

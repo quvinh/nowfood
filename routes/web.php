@@ -32,6 +32,8 @@ Route::get('forget-password', [ForgotPassword::class, 'showForgetPasswordForm'])
 Route::post('forget-password', [ForgotPassword::class, 'submitForgetPasswordForm'])->name('forget.password.post');
 Route::get('reset-password/{token}', [ForgotPassword::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('reset-password', [ForgotPassword::class, 'submitResetPasswordForm'])->name('reset.password.post');
+
+Route::get('contact', [Home::class, 'contact'])->name('contact');
 //
 Route::middleware('checklogin')->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
@@ -54,6 +56,11 @@ Route::middleware('checklogin')->group(function() {
     //
     Route::post('store-order', [WebController::class, 'storeOrder'])->name('store-order');
     Route::post('cancel-cart/{id}', [Home::class, 'cancelCart'])->name('index.cancel-cart');
+
+    Route::get('news', [Home::class, 'news'])->name('index.news');
+    Route::get('single-news/{id}', [Home::class, 'singleNews'])->name('index.single-news');
+
+    Route::get('list-products/{id}', [Home::class, 'listProducts'])->name('index.list-products');
 });
 
 Route::prefix('admin')->middleware('admin')->group(function() {
@@ -80,5 +87,12 @@ Route::prefix('admin')->middleware('admin')->group(function() {
     // Route::get('edit-order', [WebController::class, 'editorder'])->name('edit-order');
     // Route::put('update-order', [WebController::class, 'createorder'])->name('create-order');
     Route::get('delete-order/{id}', [WebController::class, 'deleteOrder'])->name('delete-order');
+
+    Route::get('news', [WebController::class, 'news'])->name('news');
+    Route::get('create-news', [WebController::class, 'createNews'])->name('create-news');
+    Route::post('store-news', [WebController::class, 'storeNews'])->name('store-news');
+    Route::get('edit-news/{id}', [WebController::class, 'editNews'])->name('edit-news');
+    Route::put('update-news/{id}', [WebController::class, 'updateNews'])->name('update-news');
+    Route::get('delete-news/{id}', [WebController::class, 'deleteNews'])->name('delete-news');
 });
 

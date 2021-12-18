@@ -30,6 +30,9 @@
 	<!-- responsive -->
 	<link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 
+    <!-- Theme included stylesheets -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
 </head>
 
 <body>
@@ -64,12 +67,12 @@
 										<li><a href="#">Slider Home</a></li>
 									</ul>
 								</li>
-								<!-- <li><a href="#">News</a>
+								<li><a href="#">News</a>
 									<ul class="sub-menu">
-										<li><a href="#">News</a></li>
-										<li><a href="#">Single News</a></li>
+										<li><a href="{{ route('index.news') }}">News</a></li>
+										<!-- <li><a href="#">Single News</a></li> -->
 									</ul>
-								</li> -->
+								</li>
 								<li><a href="#">Shop</a>
 									<ul class="sub-menu">
 										<li><a href="#">Shop</a></li>
@@ -79,8 +82,14 @@
 										<li><a href="{{ route('index.cart') }}">Giỏ hàng</a></li>
 									</ul>
 								</li>
-                                <li><a href="#">Liên hệ</a></li>
-                                <li><a href="#">About</a></li>
+                                <li><a href="#">Danh mục</a>
+                                    <ul class="sub-menu">
+                                        @foreach($categories as $item)
+                                            <li><a href="{{ route('index.list-products', $item->id) }}">{{ $item->name }}</a></li>
+                                        @endforeach
+                                    </ul>
+								</li>
+                                <li><a href="{{ route('contact') }}">Liên hệ</a></li>
                                 @if (Route::has('login'))
                                     @auth
                                         <li>
@@ -104,7 +113,17 @@
                                 @endif
 								<li>
 									<div class="header-icons">
-										<a class="shopping-cart" href="{{ route('index.cart') }}"><i class="fas fa-shopping-cart"></i></a>
+										<a class="shopping-cart" href="{{ route('index.cart') }}">
+                                            <i class="fas fa-shopping-cart">
+                                                <!-- @if (Route::has('login'))
+                                                    @auth
+                                                        <span class="position-absolute top-10 start-50 translate-middle badge rounded-pill bg-info">
+                                                            0
+                                                        </span>
+                                                    @endauth
+                                                @endif -->
+                                            </i>
+                                        </a>
 										<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
                                     </div>
 								</li>
@@ -203,10 +222,10 @@
 						<h2 class="widget-title">Pages</h2>
 						<ul>
 							<li><a href="{{ route('home') }}">Home</a></li>
-							<li><a href="#">About</a></li>
+							<!-- <li><a href="#">About</a></li> -->
 							<li><a href="#">Shop</a></li>
-							<li><a href="#">News</a></li>
-							<li><a href="#">Contact</a></li>
+							<li><a href="{{ route('news') }}">News</a></li>
+							<li><a href="{{ route('contact') }}">Contact</a></li>
 						</ul>
 					</div>
 				</div>
@@ -268,6 +287,7 @@
 	<script src="{{ asset('js/sticker.js') }}"></script>
 	<!-- main js -->
 	<script src="{{ asset('js/main.js') }}"></script>
+    @yield('quilljs')
 </body>
 
 </html>
