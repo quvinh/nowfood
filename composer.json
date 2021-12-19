@@ -15,6 +15,7 @@
         "laravel/framework": "^7.29",
         "laravel/tinker": "^2.5",
         "phpmailer/phpmailer": "^6.5",
+        "swiftmailer/swiftmailer": "6.0",
         "symfony/mailer": "^5.4",
         "wildbit/swiftmailer-postmark": "^3.3"
     },
