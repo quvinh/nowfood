@@ -31,10 +31,10 @@ class ForgotPassword extends Controller
                 'created_at' => Carbon::now()
             ]);
 
-        Mail::send('email.forgetPassword', ['token' => $token], function($message) use($request) {
-            $message->to($request->email);
-            $message->subject('Reset password');
-        });
+        // Mail::send('email.forgetPassword', ['token' => $token], function($message) use($request) {
+        //     $message->to($request->email);
+        //     $message->subject('Reset password');
+        // });
         // dd($token);
         return back()->with('message', 'Link cập nhật lại mật khẩu đã gửi về email của bạn!');
     }
