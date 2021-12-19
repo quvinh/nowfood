@@ -4,7 +4,7 @@
     <br><br>
     <div class="row">
         <div class="col" style="text-align: right;">
-            <img src="{{ asset('images/img/register.png') }}" alt="IMAGE" width="60%">
+            <a href="{{ route('home') }}"><img src="{{ asset('images/img/register.png') }}" alt="IMAGE" width="60%"></a>
         </div>
         <div class="col" style="background-color: rgb(255, 169, 119); border-radius: 4px;">
             <br><br>

@@ -22,11 +22,5 @@ class Controller extends BaseController
             $categories = Category::all();
             $view->with('categories', $categories);
         });
-
-        // view()->composer('*', function($view) {
-        //     $countCart = DB::table('orders')->where('user_id', Auth::user()->id)->count();
-        //     dd($countCart);
-        //     $view->with('countCart', $countCart);
-        // });
     }
 }

@@ -4,6 +4,9 @@
     <br><br>
     <div class="card">
         <div class="card-body">
+            @if (Session::has('success'))
+                <span class="text-danger">{{ Session::get('success') }}</span>
+            @endif
             <form action="{{ route('profile') }}" method="post">
                 @csrf
                 @method('put')
@@ -17,7 +20,7 @@
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-text">
-                        <input class="form-check-input mt-0" type="checkbox" value="" id="change_password">
+                        <input class="form-check-input mt-0" type="checkbox" value="on" name="change_password">
                     </div>
                     <input type="password" class="form-control" aria-label="Text input with checkbox" name="password" placeholder="Change password">
                 </div>

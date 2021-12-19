@@ -95,6 +95,9 @@
                                         <li>
                                             <a href="#">Tên đăng nhập: {{ Auth::user()->name }}</a>
                                             <ul class="sub-menu">
+                                                @if(Auth::user()->is_admin == 1)
+                                                    <li><a href="{{ route('admin') }}">Admin</a></li>
+                                                @endif
                                                 <li><a href="{{ route('profile') }}">Thông tin</a></li>
                                                 <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
                                             </ul>
@@ -115,13 +118,16 @@
 									<div class="header-icons">
 										<a class="shopping-cart" href="{{ route('index.cart') }}">
                                             <i class="fas fa-shopping-cart">
-                                                <!-- @if (Route::has('login'))
+                                                @if (Route::has('login'))
                                                     @auth
                                                         <span class="position-absolute top-10 start-50 translate-middle badge rounded-pill bg-info">
-                                                            0
+                                                            @php
+                                                                $countCart = DB::table('orders')->where('user_id', Auth::user()->id)->count();
+                                                            @endphp
+                                                            {{ $countCart }}
                                                         </span>
                                                     @endauth
-                                                @endif -->
+                                                @endif
                                             </i>
                                         </a>
 										<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>

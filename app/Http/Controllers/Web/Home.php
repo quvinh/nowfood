@@ -15,12 +15,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use stdClass;
 use Symfony\Component\VarDumper\Caster\RedisCaster;
 
 class Home extends Controller
 {
     public function home() {
         // $categories = Category::all();
+        // $test = DB::table('info_checkouts')->selectRaw(DB::raw('MONTH(created_at) month'))->distinct()->get();
+        // $list = new stdClass;
+        // foreach($test as $key => $item) {
+        //     $info = DB::table('info_checkouts')->whereMonth('created_at', $item->month)->get();
+        //     $list->push($info);
+        // }
+        // dd($test);
         $product = Product::all();
         return view('index.show_product', compact('product'));
     }
