@@ -231,10 +231,10 @@ class Home extends Controller
         DB::table('bills')->where('id', $id)->delete();
         DB::table('orders')->where('id', $bill[0]->order_id)->delete();
 
-        // Mail::send('email.mailRespond', ['name' => $info[0]->name], function($message) {
-        //     $message->to(Auth::user()->email);
-        //     $message->subject('Thank you');
-        // });
+        Mail::send('email.mailRespond', ['name' => $info[0]->name], function($message) {
+            $message->to(Auth::user()->email);
+            $message->subject('Thank you');
+        });
 
         return redirect()->route('index.bill');
     }
