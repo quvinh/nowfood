@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+
+    <!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="{{ asset('images/img/administrator.png') }}">
+
     <!-- MetisMenu CSS -->
     <link href="{{ asset('css/metisMenu.min.css') }}" rel="stylesheet">
 
@@ -100,9 +104,9 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="#"><i class="fa fa-edit fa-fw"></i> Statistical</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -229,7 +233,7 @@
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
+                        <i class="fa fa-clock-o fa-fw"></i> Thống kê
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -239,7 +243,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">STT</th>
-                                    <th scope="col">UserID</th>
+                                    <th scope="col">Username</th>
                                     <th scope="col">Sản phẩm</th>
                                     <th scope="col">Ảnh</th>
                                     <th scope="col">Số lượng</th>
@@ -251,11 +255,14 @@
                                 @php
                                     $i = 1
                                 @endphp
-                                @foreach($table as $key => $item)
+                                @foreach($tableCheckout as $key => $item)
                                     <tr>
                                         <th scope="row">{{ $i++ }}</th>
                                         <td>
-                                            {{ $item->user_id }}
+                                            @php
+                                                $getName = DB::table('users')->where('id', $item->user_id)->get();
+                                            @endphp
+                                            {{ $getName[0]->name }}
                                         </td>
                                         <td>{{ $item->name_product }}</td>
                                         <td><img style="width: 100px;" src="{{ asset('images/'.$item->image_product) }}" alt=""></td>
@@ -279,15 +286,20 @@
                             </thead>
                             <tbody>
                                 @php
-                                    $i = 1
+                                    $i = 1;
+                                    $allprice = 0;
                                 @endphp
-                                @foreach($statistical as $item)
+                                @foreach($statisticalCheckout as $item)
                                     <tr>
                                         <th scope="row">{{ $i++ }}</th>
                                         <td>{{ $item->name_product }}</td>
                                         <td>{{ $item->total }}</td>
                                     </tr>
+                                    @php
+                                        $allprice += $item->total;
+                                    @endphp
                                 @endforeach
+                                <th>{{ $allprice }}</th>
                             </tbody>
                         </table>
                     </div>

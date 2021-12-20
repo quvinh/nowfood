@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Info_checkout;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -20,7 +21,16 @@ class Controller extends BaseController
         // view()->share('categories', $categories);
         view()->composer('*', function($view) {
             $categories = Category::all();
-            $view->with('categories', $categories);
+            $tableCheckout = Info_checkout::all();
+            $statisticalCheckout = DB::table('info_checkouts')
+                ->select('name_product', DB::raw('sum(pay) as total'))
+                ->groupBy('name_product')
+                ->orderBy('total', 'desc')
+                ->get();
+            $view->with('categories', $categories)
+                ->with('tableCheckout', $tableCheckout)
+                ->with('statisticalCheckout', $statisticalCheckout);
+            // $view->compact('categories', 'tableCheckout', 'statisticalCheckout');
         });
     }
 }
