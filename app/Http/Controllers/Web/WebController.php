@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Info_checkout;
 use App\News;
 use App\Order;
 use App\Product;
@@ -17,7 +18,16 @@ class WebController extends Controller
 {
     public function admin()
     {
-        return view('web.master');
+        $table = Info_checkout::all();
+        $statistical = DB::table('info_checkouts')
+            ->select('name_product', DB::raw('sum(pay) as total'))
+            ->groupBy('name_product')
+            ->orderBy('total', 'desc')
+            // ->orderBy('sum(quantity) desc')
+            // ->paginate(4);
+            ->get();
+        // dd($table);
+        return view('web.master', compact('table', 'statistical'));
     }
 
     public function category()

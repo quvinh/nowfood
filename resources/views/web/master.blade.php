@@ -234,6 +234,62 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div id="morris-area-chart"></div>
+                        <br><br>
+                        <table class="table table-bordered border-primary">
+                            <thead>
+                                <tr>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">UserID</th>
+                                    <th scope="col">Sản phẩm</th>
+                                    <th scope="col">Ảnh</th>
+                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">Tổng giá</th>
+                                    <th scope="col">Ngày mua</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $i = 1
+                                @endphp
+                                @foreach($table as $key => $item)
+                                    <tr>
+                                        <th scope="row">{{ $i++ }}</th>
+                                        <td>
+                                            {{ $item->user_id }}
+                                        </td>
+                                        <td>{{ $item->name_product }}</td>
+                                        <td><img style="width: 100px;" src="{{ asset('images/'.$item->image_product) }}" alt=""></td>
+                                        <td>{{ $item->quantity }}</td>
+                                        <td>{{ $item->pay }}</td>
+                                        <td>{{ $item->created_at }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <br>
+                        <h4>Danh sách</h4>
+                        <br>
+                        <table class="table table-bordered border-primary">
+                            <thead>
+                                <tr>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Sản phẩm</th>
+                                    <th scope="col">Tổng giá</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $i = 1
+                                @endphp
+                                @foreach($statistical as $item)
+                                    <tr>
+                                        <th scope="row">{{ $i++ }}</th>
+                                        <td>{{ $item->name_product }}</td>
+                                        <td>{{ $item->total }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                     <!-- /.panel-body -->
                 </div>

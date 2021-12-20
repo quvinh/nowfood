@@ -20,6 +20,7 @@
                         </div><div class="mb-3">
                             <label class="form-label">Email address</label>
                             <input type="email" class="form-control" name="email" placeholder="name@example.com">
+                            @error('email') <span class="text-danger error">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>

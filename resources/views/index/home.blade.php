@@ -61,11 +61,11 @@
 						<!-- menu start -->
 						<nav class="main-menu">
 							<ul>
-								<li class="current-list-item"><a href="#">Home</a>
-									<ul class="sub-menu">
+								<li class="current-list-item"><a href="{{ route('home') }}">Home</a>
+									<!-- <ul class="sub-menu">
 										<li><a href="{{ route('home') }}">Static Home</a></li>
 										<li><a href="#">Slider Home</a></li>
-									</ul>
+									</ul> -->
 								</li>
 								<li><a href="#">News</a>
 									<ul class="sub-menu">

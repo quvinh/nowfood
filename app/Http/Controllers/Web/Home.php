@@ -23,12 +23,18 @@ class Home extends Controller
     public function home() {
         // $categories = Category::all();
         // $test = DB::table('info_checkouts')->selectRaw(DB::raw('MONTH(created_at) month'))->distinct()->get();
-        // $list = new stdClass;
+        // $list = array();
         // foreach($test as $key => $item) {
-        //     $info = DB::table('info_checkouts')->whereMonth('created_at', $item->month)->get();
-        //     $list->push($info);
+        //     $info = DB::table('info_checkouts')
+        //         // ->whereMonth('created_at', $item->month)
+        //         // ->select('created_at', DB::raw('sum(info_checkouts.pay) as sum'))
+        //         // ->addSelect(DB::raw('sum(info_checkouts.pay) as sum'))
+        //         ->selectRaw('month("created_at") as temp')
+        //         // ->groupBy('month("created_at")')
+        //         ->get();
+        //     array_push($list, $info);
         // }
-        // dd($test);
+        // dd($list);
         $product = Product::all();
         return view('index.show_product', compact('product'));
     }
@@ -200,11 +206,11 @@ class Home extends Controller
 
     public function getInfoCheckout() {
         $info = DB::table('info_checkouts')->where('user_id', Auth::user()->id)->get();
-        $user_info = DB::table('info_checkouts')
-            ->select('name_product', DB::raw('count(*) as total'))
-            ->groupBy('name_product')
-            ->get();
-        dd($user_info);
+        // $user_info = DB::table('info_checkouts')
+        //     ->select('name_product', DB::raw('count(*) as total'))
+        //     ->groupBy('name_product')
+        //     ->get();
+        // dd($user_info);
         return view('index.checkout', compact('info'));
     }
 
