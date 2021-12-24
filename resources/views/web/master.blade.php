@@ -238,70 +238,52 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div id="morris-area-chart"></div>
-                        <br><br>
-                        <table class="table table-bordered border-primary">
-                            <thead>
-                                <tr>
-                                    <th scope="col">STT</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Sản phẩm</th>
-                                    <th scope="col">Ảnh</th>
-                                    <th scope="col">Số lượng</th>
-                                    <th scope="col">Tổng giá</th>
-                                    <th scope="col">Ngày mua</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $i = 1
-                                @endphp
-                                @foreach($tableCheckout as $key => $item)
-                                    <tr>
-                                        <th scope="row">{{ $i++ }}</th>
-                                        <td>
-                                            @php
-                                                $getName = DB::table('users')->where('id', $item->user_id)->get();
-                                            @endphp
-                                            {{ $getName[0]->name }}
-                                        </td>
-                                        <td>{{ $item->name_product }}</td>
-                                        <td><img style="width: 100px;" src="{{ asset('images/'.$item->image_product) }}" alt=""></td>
-                                        <td>{{ $item->quantity }}</td>
-                                        <td>{{ $item->pay }}</td>
-                                        <td>{{ $item->created_at }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
                         <br>
-                        <h4>Danh sách</h4>
+                        <h4>Doanh thu các tháng</h4>
                         <br>
-                        <table class="table table-bordered border-primary">
-                            <thead>
-                                <tr>
-                                    <th scope="col">STT</th>
-                                    <th scope="col">Sản phẩm</th>
-                                    <th scope="col">Tổng giá</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $i = 1;
-                                    $allprice = 0;
-                                @endphp
-                                @foreach($statisticalCheckout as $item)
+                        @foreach($tableCheckout as $key => $item)
+                            <h5 style="font-weight: bold;">Tháng {{ $item[0]->month }}</h5>
+                            <table class="table table-bordered border-primary">
+                                <thead>
                                     <tr>
-                                        <th scope="row">{{ $i++ }}</th>
-                                        <td>{{ $item->name_product }}</td>
-                                        <td>{{ $item->total }}</td>
+                                        <th scope="col">STT</th>
+                                        <th scope="col">Sản phẩm</th>
+                                        <th scope="col">Ảnh</th>
+                                        <th scope="col">Ngày thanh toán</th>
+                                        <th scope="col">Số lượng</th>
+                                        <th scope="col">Tổng giá (VND)</th>
                                     </tr>
+                                </thead>
+                                <tbody>
                                     @php
-                                        $allprice += $item->total;
+                                        $i = 1;
+                                        $total = 0;
+                                        $quantity = 0;
                                     @endphp
-                                @endforeach
-                                <th>{{ $allprice }}</th>
-                            </tbody>
-                        </table>
+                                    @foreach($item as $subitem)
+                                        <tr>
+                                            <td>{{ $i++ }}</td>
+                                            <td>{{ $subitem->name_product }}</td>
+                                            <td><img style="width: 50px;" src="{{ asset('images/'.$subitem->image_product) }}" alt=""></td>
+                                            <td>{{ $subitem->created_at }}</td>
+                                            <td>{{ $subitem->quantity }}</td>
+                                            <td>{{ $subitem->pay }}</td>
+                                        </tr>
+                                        @php
+                                            $total += $subitem->pay;
+                                            $quantity += $subitem->quantity;
+                                        @endphp
+                                    @endforeach
+                                    <tr class="table-primary">
+                                        <td style="font-weight: bold;">Total</td>
+                                        <td colspan="3"></td>
+                                        <td style="font-weight: bold;">{{ $quantity }}</td>
+                                        <td style="font-weight: bold;">{{ $total }} VND</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                        @endforeach
                     </div>
                     <!-- /.panel-body -->
                 </div>
