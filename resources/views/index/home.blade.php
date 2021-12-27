@@ -122,7 +122,15 @@
                                                     @auth
                                                         <span class="position-absolute top-10 start-50 translate-middle badge rounded-pill bg-info">
                                                             @php
-                                                                $countCart = DB::table('orders')->where('user_id', Auth::user()->id)->count();
+                                                                $id_order = DB::table('bills')->get('order_id');
+                                                                $get_id = array();
+                                                                foreach($id_order as $item) {
+                                                                    array_push($get_id, $item->order_id);
+                                                                }
+                                                                $countCart = DB::table('orders')
+                                                                    ->where('user_id', Auth::user()->id)
+                                                                    ->whereNotIn('id', $get_id)
+                                                                    ->count();
                                                             @endphp
                                                             {{ $countCart }}
                                                         </span>
